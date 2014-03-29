@@ -8,11 +8,19 @@ angular.module('ericruisApp')
     link: (scope, element, attrs)->
       camera = new THREE.PerspectiveCamera 75, 1, 1, 100 
       camera.position.z = 500
+      
+      #SCENE
       scene = new THREE.Scene()
 
+      #RENDERER
       renderer = new THREE.CSS3DRenderer()
       renderer.setSize window.innerWidth, window.innerHeight
       renderer.domElement.style.position = 'absolute';
+
+      #CONTROLS
+      controls = new THREE.TrackballControls camera, renderer.domElement
+      controls.rotateSpeed = 0.5
+
 
       sprite = document.createElement 'img'
       sprite.src = 'images/yantra.png'
@@ -34,5 +42,7 @@ angular.module('ericruisApp')
       element.append renderer.domElement
       animate = =>
         requestAnimationFrame animate
+
+        controls.update()
         renderer.render scene, camera
       animate()
