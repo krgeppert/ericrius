@@ -53,15 +53,16 @@ angular.module('ericruisApp')
           makeNode(sprite)
 
         spherify()
+        breathe()
 
 
 
-      makeNode = (sprite, onclick)->
+      makeNode = (sprite, onclick, debug)->
         canvas = document.createElement 'canvas'
 
         size = Math.min sprite.width, sprite.height
-        canvas.width = size
-        canvas.height = size
+        canvas.width = 240
+        canvas.height = 240
 
         context = canvas.getContext '2d'
         context.drawImage sprite, 0, 0
@@ -93,8 +94,6 @@ angular.module('ericruisApp')
       onload = (sprite, instructor)->
         return ()->
           index = _.random(0, instructors.length-1)
-          console.log 'instructors length', instructors.length
-          debugger
           canvas = nodes[index].element
           context = canvas.getContext('2d');
           context.drawImage(sprite, 0, 0);
@@ -116,6 +115,16 @@ angular.module('ericruisApp')
           .start()
           j+=3
 
+      breathe = ->
+        for node in nodes
+          new TWEEN.Tween(node.scale).to(
+            x: 1.1
+            y: 1.1
+            z: 1.1
+          , 4000)
+          .start()
+
+
 
       animate = =>
 
@@ -125,8 +134,5 @@ angular.module('ericruisApp')
         TWEEN.update();
         time = Date.now()
         #: 4 seconds inhale, 2 seconds pause, 4 seconds exhale, 2 seconds pause
-        for node in nodes
-          scale = Math.sin((Math.floor(node.position.x) + time) * pulseSpeed) * 0.1 + 1.0
-          node.scale.set scale, scale, scale
         renderer.render scene, camera
       animate()
