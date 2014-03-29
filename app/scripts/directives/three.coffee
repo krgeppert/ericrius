@@ -61,8 +61,8 @@ angular.module('ericruisApp')
         canvas = document.createElement 'canvas'
 
         size = Math.min sprite.width, sprite.height
-        canvas.width = 240
-        canvas.height = 240
+        canvas.width = size
+        canvas.height = size
 
         context = canvas.getContext '2d'
         context.drawImage sprite, 0, 0
