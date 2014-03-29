@@ -8,9 +8,11 @@ angular.module('ericruisApp')
     scope: 
       data: '='
     link: (scope, element, attrs)->
+      instructors = null
       scope.$watch 'data', (newValue)->
         if newValue?
-          addNodes(newValue)
+          instructors = newValue
+          addInstructorNodes(newValue)
 
       #VARS
       totalNodes = 60
@@ -56,8 +58,6 @@ angular.module('ericruisApp')
 
       makeNode = (sprite, onclick)->
         canvas = document.createElement 'canvas'
-        $(canvas).on 'click', ->
-          onclick?()
 
         size = Math.min sprite.width, sprite.height
         canvas.width = size
@@ -83,18 +83,23 @@ angular.module('ericruisApp')
             radius * Math.cos( phi )
           )
 
-      addNodes = (instructors)->
+      addInstructorNodes = (instructors)->
         _.each instructors, (instructor)->
           sprite = document.createElement 'img'
           sprite.src = instructor.get('coverPhotoUrl')
-
           sprite.addEventListener 'load', onload(sprite, instructor)
 
 
       onload = (sprite, instructor)->
         return ()->
-          makeNode sprite, ->
-            $rootScope.$apply ->
+          index = _.random(0, instructors.length-1)
+          console.log 'instructors length', instructors.length
+          debugger
+          canvas = nodes[index].element
+          context = canvas.getContext('2d');
+          context.drawImage(sprite, 0, 0);
+          $(canvas).on 'click', ()->
+           $rootScope.$apply ->
               $location.path '/instructor/' + instructor.id
 
 
