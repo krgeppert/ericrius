@@ -1,9 +1,7 @@
 'use strict'
 
 angular.module('ericruisApp')
-  .controller 'MainCtrl', ($scope) ->
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate'
-      'AngularJS'
-      'Karma'
-    ]
+  .controller 'MainCtrl', ($scope, instructors) ->
+    instructors.then (response)->
+      instructors = response
+      console.log response
