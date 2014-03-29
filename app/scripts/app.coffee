@@ -7,8 +7,8 @@ angular.module( 'ericruisApp', [
   'ngRoute'
 ]).config ($routeProvider)-> 
   $routeProvider.when '/', 
-    templateUrl: 'views/main.html'
-    controller: 'MainCtrl'
+    templateUrl: 'views/sphere.html'
+    controller: 'SphereCtrl'
   .otherwise
     redirectTo: '/'
 

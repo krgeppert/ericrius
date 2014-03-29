@@ -4,6 +4,8 @@ angular.module('ericruisApp', ['ngCookies', 'ngResource', 'ngSanitize', 'ngRoute
   return $routeProvider.when('/', {
     templateUrl: 'views/main.html',
     controller: 'MainCtrl'
+  }).when('/sphere', {
+    templateUrl: 'views/sphere.html'
   }).otherwise({
     redirectTo: '/'
   });
