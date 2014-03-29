@@ -7,8 +7,8 @@ angular.module( 'ericruisApp', [
   'ngRoute'
 ]).config ($routeProvider)-> 
   $routeProvider.when '/', 
-    templateUrl: 'views/sphere.html'
-    controller: 'SphereCtrl'
+    templateUrl: 'views/main.html'
+    controller: 'MainCtrl'
   .when '/instructor/:instructorId',
     templateUrl: 'views/instructor.html'
     controller: 'InstructorCtrl'
