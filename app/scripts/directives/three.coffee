@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('ericruisApp')
-  .directive 'three', ($parse) ->
+  .directive 'three', ($parse, $location, $rootScope) ->
     template: '<div id="canvas-container"></div>'
     restrict: 'E'
     replace: true
@@ -11,14 +11,17 @@ angular.module('ericruisApp')
       scope.$watch 'data', (newValue)->
         if newValue?
           addNodes(newValue)
+
+      #VARS
       totalNodes = 60
       radius = totalNodes * 15
       nodes = []
       positions = []
       startingDuration = 500;
       pulseSpeed = .0007
-      breathing = true
-      time = 0
+      breathing = []
+
+
 
       camera = new THREE.PerspectiveCamera 75, 1, 1, 100 
       camera.position.z = 500
@@ -48,12 +51,14 @@ angular.module('ericruisApp')
           makeNode(sprite)
 
         spherify()
-        breathe()
 
 
 
-      makeNode = (sprite)->
+      makeNode = (sprite, onclick)->
         canvas = document.createElement 'canvas'
+        $(canvas).on 'click', ->
+          onclick?()
+
         size = Math.min sprite.width, sprite.height
         canvas.width = size
         canvas.height = size
@@ -83,12 +88,14 @@ angular.module('ericruisApp')
           sprite = document.createElement 'img'
           sprite.src = instructor.get('coverPhotoUrl')
 
-          sprite.addEventListener 'load', onload(sprite)
+          sprite.addEventListener 'load', onload(sprite, instructor)
 
 
-      onload = (sprite)->
+      onload = (sprite, instructor)->
         return ()->
-          makeNode(sprite)
+          makeNode sprite, ->
+            $rootScope.$apply ->
+              $location.path '/instructor/' + instructor.id
 
 
       spherify = ->
@@ -104,12 +111,6 @@ angular.module('ericruisApp')
           .start()
           j+=3
 
-      breathe = ->
-        setTimeout(()=>
-          console.log 'breath'
-          breathe()
-          breathing = !breathing
-        2000)
 
       animate = =>
 
@@ -117,12 +118,10 @@ angular.module('ericruisApp')
 
         controls.update()
         TWEEN.update();
-
+        time = Date.now()
         #: 4 seconds inhale, 2 seconds pause, 4 seconds exhale, 2 seconds pause
-        if breathing
-          time += 10
-          for node in nodes
-            scale = Math.sin((Math.floor(node.position.x) + time) * pulseSpeed) * 0.1 + 1.0
-            node.scale.set scale, scale, scale
+        for node in nodes
+          scale = Math.sin((Math.floor(node.position.x) + time) * pulseSpeed) * 0.1 + 1.0
+          node.scale.set scale, scale, scale
         renderer.render scene, camera
       animate()
