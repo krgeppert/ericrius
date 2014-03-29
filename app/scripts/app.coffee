@@ -9,6 +9,9 @@ angular.module( 'ericruisApp', [
   $routeProvider.when '/', 
     templateUrl: 'views/sphere.html'
     controller: 'SphereCtrl'
+  .when '/instructor/:instructorId',
+    templateUrl: 'views/instructor.html'
+    controller: 'InstructorCtrl'
   .otherwise
     redirectTo: '/'
 
