@@ -15,7 +15,7 @@ angular.module('ericruisApp')
           addInstructorNodes(newValue)
 
       #VARS
-      totalNodes = 60
+      totalNodes = 30
       radius = totalNodes * 15
       nodes = []
       positions = []
@@ -26,14 +26,14 @@ angular.module('ericruisApp')
 
 
       camera = new THREE.PerspectiveCamera 75, 1, 1, 100 
-      camera.position.z = 500
+      camera.position.z = 4000
       
       #SCENE
       scene = new THREE.Scene()
 
       #RENDERER
       renderer = new THREE.CSS3DRenderer()
-      renderer.setSize window.innerWidth, window.innerHeight
+      renderer.setSize element.width(), element.width()
       renderer.domElement.style.position = 'absolute';
       element.append renderer.domElement
 
@@ -87,7 +87,7 @@ angular.module('ericruisApp')
       addInstructorNodes = (instructors)->
         _.each instructors, (instructor)->
           sprite = document.createElement 'img'
-          sprite.src = instructor.get('coverPhotoUrl')
+          sprite.src = instructor.get('imageURL')
           sprite.addEventListener 'load', onload(sprite, instructor)
 
 
@@ -102,6 +102,12 @@ angular.module('ericruisApp')
               $location.path '/instructor/' + instructor.id
 
 
+      
+      onWindowResize = ->
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
       spherify = ->
         j = 0
         for node in nodes
@@ -111,8 +117,7 @@ angular.module('ericruisApp')
             y: positions[j+1]
             z: positions[j+2]
           , Math.random() * startingDuration + startingDuration)
-          .easing(TWEEN.Easing.Exponential.InOut)
-          .start()
+          .easing(TWEEN.Easing.Exponential.InOut)          .start()
           j+=3
 
       breathe = ->
@@ -122,6 +127,10 @@ angular.module('ericruisApp')
             y: 1.1
             z: 1.1
           , 4000)
+          .repeat(Infinity)
+          .delay(2000)
+          .easing(TWEEN.Easing.Cubic.In)
+          .yoyo(true)
           .start()
 
 
