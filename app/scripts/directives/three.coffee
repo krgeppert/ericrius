@@ -30,6 +30,7 @@ angular.module('ericruisApp')
       renderer = new THREE.CSS3DRenderer()
       renderer.setSize window.innerWidth, window.innerHeight
       renderer.domElement.style.position = 'absolute';
+      element.append renderer.domElement
 
       #CONTROLS
       controls = new THREE.TrackballControls camera, renderer.domElement
@@ -49,7 +50,7 @@ angular.module('ericruisApp')
         spherify()
         breathe()
 
-      element.append renderer.domElement
+
 
       makeNode = (sprite)->
         canvas = document.createElement 'canvas'
