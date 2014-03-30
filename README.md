@@ -10,5 +10,5 @@ npm install -g yo
 
 npm install
 bower install
-
+bower install threejs
 
