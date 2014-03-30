@@ -102,13 +102,12 @@ angular.module('ericruisApp')
           context = canvas.getContext('2d');
           context.drawImage(sprite, 0, 0);
 
-          #normal css3d object
-          nameLabel = instructor.get('firstName') + ' ' + instructor.get('lastName')
-          element = document.createElement 'div'
-          $(element).text(nameLabel)
-          nameNode = new THREE.CSS3DObject( element );
-          nameNode.position.set node.position.x, node.position.y, node.position.z
-          scene.add nameNode
+          # nameLabel = instructor.get('firstName') + ' ' + instructor.get('lastName')
+          # element = document.createElement 'div'
+          # $(element).text(nameLabel)
+          # nameNode = new THREE.CSS3DObject( element );
+          # nameNode.position.set node.position.x, node.position.y, node.position.z
+          # scene.add nameNode
 
           $(canvas).on 'mousedown', ()->
             $(canvas).on 'mousemove', ()->
