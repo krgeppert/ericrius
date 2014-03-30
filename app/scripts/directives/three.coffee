@@ -64,6 +64,8 @@ angular.module('ericruisApp')
 
       makeNode = (sprite, onclick, debug)->
         canvas = document.createElement 'canvas'
+        label = '<p class = teacher-label>yo</p>'
+        $(canvas).append(label)
 
         size = Math.min sprite.height, sprite.width
         canvas.width = size
@@ -116,13 +118,9 @@ angular.module('ericruisApp')
             if !wasDragging
               $rootScope.$apply ->
                 $location.path '/instructor/' + instructor.id
-
-
-
-
-
       
-      onWindowResize = ->
+      window.onresize = ->
+        console.log 'resize'
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
