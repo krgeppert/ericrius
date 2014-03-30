@@ -7,7 +7,7 @@ angular.module('ericruisApp').controller('InstructorCtrl', function($scope, $sce
     return init(response[0]);
   });
   init = function(teacherInfo) {
-    _.each(['name', 'coverPhotoUrl', 'teacherBio'], function(attr) {
+    _.each(['name', 'coverPhotoUrl', 'teacherBio', 'firstName'], function(attr) {
       return scope[attr] = teacherInfo.get(attr);
     });
     return scope.videoUrl = $sce.trustAsResourceUrl(embeddedVersion(teacherInfo.get('videoUrl')));

@@ -7,7 +7,7 @@ angular.module('ericruisApp')
       init response[0]
 
     init = (teacherInfo)->
-      _.each ['name', 'coverPhotoUrl', 'teacherBio'], (attr)->
+      _.each ['name', 'coverPhotoUrl', 'teacherBio', 'firstName'], (attr)->
         scope[attr] = teacherInfo.get attr
       scope.videoUrl = $sce.trustAsResourceUrl embeddedVersion(teacherInfo.get 'videoUrl')
 

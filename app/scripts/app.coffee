@@ -12,6 +12,9 @@ angular.module( 'ericruisApp', [
   .when '/instructor/:instructorId',
     templateUrl: 'views/instructor.html'
     controller: 'InstructorCtrl'
+  .when '/request',
+    templateUrl: 'views/request.html'
+    controller: 'RequestCtrl'
   .otherwise
     redirectTo: '/'
 
