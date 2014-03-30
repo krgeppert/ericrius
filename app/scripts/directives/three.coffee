@@ -19,6 +19,7 @@ angular.module('ericruisApp')
       instructorInsertionIndex = 0
       insertionJump = null
       instructors = null
+      isDragging = false
 
       scope.$watch 'data', (newValue)->
         if newValue?
@@ -103,9 +104,21 @@ angular.module('ericruisApp')
           canvas.height = 240
           context = canvas.getContext('2d');
           context.drawImage(sprite, 0, 0);
-          $(canvas).on 'click', ()->
-            $rootScope.$apply ->
-              $location.path '/instructor/' + instructor.id
+          $(canvas).on 'mousedown', ()->
+            $(canvas).on 'mousemove', ()->
+              isDragging = true
+              console.log 'hm'
+              $(canvas).unbind('mousemove')
+          $(canvas).on 'mouseup', ()->
+            wasDragging = isDragging
+            isDragging = false
+            $(canvas).unbind('mousemove')
+            if !wasDragging
+              $rootScope.$apply ->
+                $location.path '/instructor/' + instructor.id
+
+
+
 
 
       
