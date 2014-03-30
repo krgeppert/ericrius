@@ -37,7 +37,7 @@ angular.module('ericruisApp')
       #RENDERER
       renderer = new THREE.CSS3DRenderer()
       renderer.setSize element.width(), element.width()
-      renderer.domElement.style.position = 'absolute';
+      # renderer.domElement.style.position = 'absolute';
       element.append renderer.domElement
 
 
@@ -53,7 +53,6 @@ angular.module('ericruisApp')
 
         for i in [0...totalNodes]
           makeNode(sprite)
-
         spherify()
         breathe()
 
@@ -102,12 +101,17 @@ angular.module('ericruisApp')
           context = canvas.getContext('2d');
           context.drawImage(sprite, 0, 0);
 
-          # nameLabel = instructor.get('firstName') + ' ' + instructor.get('lastName')
-          # element = document.createElement 'div'
-          # $(element).text(nameLabel)
-          # nameNode = new THREE.CSS3DObject( element );
-          # nameNode.position.set node.position.x, node.position.y, node.position.z
-          # scene.add nameNode
+          nameLabel = instructor.get('firstName') + ' ' + instructor.get('lastName')
+          element = document.createElement 'h2'
+          $(element).text(nameLabel)
+          nameNode = new THREE.CSS3DSprite( element );
+          #Keep a reference to nameNode so we can place it
+          node.nameNode = nameNode
+          nameNode.position.y -= 150
+          node.add nameNode
+
+
+ 
 
           $(canvas).on 'mousedown', ()->
             $(canvas).on 'mousemove', ()->
@@ -124,21 +128,33 @@ angular.module('ericruisApp')
       
       window.onresize = ->
         console.log 'resize'
-        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.aspect = 1
         camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setSize(element.width(), element.width());
 
       spherify = ->
         j = 0
+        i = 0
         for node in nodes
-
+          
           new TWEEN.Tween(node.position).to(
             x: positions[j]
             y: positions[j+1]
             z: positions[j+2]
           , Math.random() * startingDuration + startingDuration)
-          .easing(TWEEN.Easing.Exponential.InOut)          .start()
+          # .onComplete(
+          #   do (node)->
+          #     console.log 'da'
+          #     ->
+          #       if node.nameNode?
+          #         node.nameNode.position.y -= 25
+          #         node.add node.nameNode
+          # )
+          .start()
+            
           j+=3
+          i++
+
 
       breathe = ->
         for node in nodes
