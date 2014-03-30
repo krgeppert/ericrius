@@ -30,7 +30,7 @@ angular.module('ericruisApp')
 
 
       camera = new THREE.PerspectiveCamera 75, 1, 1, 100 
-      camera.position.z = 4000
+      camera.position.z = 1200
       
       #SCENE
       scene = new THREE.Scene()
@@ -47,7 +47,7 @@ angular.module('ericruisApp')
 
 
       sprite = document.createElement 'img'
-      sprite.src = 'images/yantra.png'
+      sprite.src = 'images/test.png'
 
 
 
@@ -64,7 +64,7 @@ angular.module('ericruisApp')
       makeNode = (sprite, onclick, debug)->
         canvas = document.createElement 'canvas'
 
-        size = Math.min sprite.width, sprite.height
+        size = Math.min sprite.height, sprite.width
         canvas.width = size
         canvas.height = size
 
@@ -99,9 +99,13 @@ angular.module('ericruisApp')
         return ()->
           canvas = nodes[instructorInsertionIndex].element
           instructorInsertionIndex+=insertionJump
+          canvas.width = 240
+          canvas.height = 240
           context = canvas.getContext('2d');
           context.drawImage(sprite, 0, 0);
           $(canvas).on 'click', ()->
+            #same location of camera, only do next thing if it hasnt moved
+            console.log 'haha'
            $rootScope.$apply ->
               $location.path '/instructor/' + instructor.id
 
