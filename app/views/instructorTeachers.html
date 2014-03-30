@@ -2,9 +2,12 @@
   <div class="container">
     <h1 class="section-title">{{firstName}}'s Teachers</h1>
     <div class="row clients">
-      <div class="col-sm-6 col-md-3">
+      <div class="col-sm-6 col-md-3" ng-repeat="teacher in teachers">
         <div class="client scrollimation fade-up in">
-          <a href="#" target="_blank"><img class="img-responsive img-center" src="assets/placeholder-200x82.jpg" alt=""/></a>
+          <a ng-click="gotTo(teacher)">
+            <img class="img-responsive img-center" src="{{teacher.get('imageURL')}}"/>
+            <h3>{{teacher.get('name')}}</h3>
+          </a>
         </div>
       </div>
     </div>

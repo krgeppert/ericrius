@@ -1,15 +1,17 @@
 'use strict'
 
 angular.module('ericruisApp')
-  .controller 'InstructorCtrl', ($scope, $sce, Instructor) ->
+  .controller 'InstructorCtrl', ($q, $scope, $sce, Instructor, Teachers) ->
     scope = $scope
-    Instructor.then (response)->
-      init response[0]
+    $q.all([Instructor, Teachers]).then (response)->
+      init response[0], response[1]
 
-    init = (teacherInfo)->
+    init = (instructors, teachers)->
+      instructorInfo = instructors[0]
       _.each ['name', 'coverPhotoUrl', 'teacherBio', 'firstName'], (attr)->
-        scope[attr] = teacherInfo.get attr
-      scope.videoUrl = $sce.trustAsResourceUrl embeddedVersion(teacherInfo.get 'videoUrl')
+        scope[attr] = instructorInfo.get attr
+      scope.videoUrl = $sce.trustAsResourceUrl embeddedVersion(instructorInfo.get 'videoUrl')
+      scope.teachers = teachers
 
     embeddedVersion = (url)->
       if _(url).contains('youtube') and not _(url).contains('embed')
