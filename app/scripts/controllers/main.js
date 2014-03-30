@@ -3,6 +3,6 @@
 angular.module('ericruisApp').controller('MainCtrl', function($scope, instructors) {
   return instructors.then(function(response) {
     instructors = response;
-    return console.log(response);
+    return $scope.instructors = instructors;
   });
 });

@@ -1,5 +1,5 @@
 'use strict'
 
 angular.module('ericruisApp')
-  .factory 'parse', () ->
+  .factory 'Parse', () ->
     return Parse
