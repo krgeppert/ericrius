@@ -5,6 +5,7 @@ brew update
 brew install npm;
 npm install -g bower
 npm install -g yo
+npm install -g grunt
 
 ##### in root
 
