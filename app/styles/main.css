@@ -2,4 +2,7 @@ canvas{
   border-radius: 50%
 }
 
+.pointer{
+  cursor: pointer;
+}
 

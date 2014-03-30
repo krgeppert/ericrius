@@ -130,7 +130,7 @@ angular.module('ericruisApp')
         console.log 'resize'
         camera.aspect = 1
         camera.updateProjectionMatrix();
-        renderer.setSize(element.width(), element.width());
+        renderer.setSize(window.innerWidth, window.innerHeight);
 
       spherify = ->
         j = 0
