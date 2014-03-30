@@ -28,8 +28,6 @@ angular.module('ericruisApp')
           addInstructorNodes(newValue)
 
 
-
-
       camera = new THREE.PerspectiveCamera 75, 1, 1, 100 
       camera.position.z = 1200
       
@@ -42,6 +40,7 @@ angular.module('ericruisApp')
       renderer.domElement.style.position = 'absolute';
       element.append renderer.domElement
 
+
       #CONTROLS
       controls = new THREE.TrackballControls camera, renderer.domElement
       controls.rotateSpeed = 0.5
@@ -49,8 +48,6 @@ angular.module('ericruisApp')
 
       sprite = document.createElement 'img'
       sprite.src = 'images/test.png'
-
-
 
       sprite.addEventListener 'load', (event)->
 
@@ -60,12 +57,8 @@ angular.module('ericruisApp')
         spherify()
         breathe()
 
-
-
       makeNode = (sprite, onclick, debug)->
         canvas = document.createElement 'canvas'
-        label = '<p class = teacher-label>yo</p>'
-        $(canvas).append(label)
 
         size = Math.min sprite.height, sprite.width
         canvas.width = size
@@ -73,6 +66,7 @@ angular.module('ericruisApp')
 
         context = canvas.getContext '2d'
         context.drawImage sprite, 0, 0
+
 
         node = new THREE.CSS3DSprite canvas
         node.position.x = Math.random() * 4000 - 2000
@@ -100,12 +94,22 @@ angular.module('ericruisApp')
 
       onload = (sprite, instructor)->
         return ()->
-          canvas = nodes[instructorInsertionIndex].element
+          node = nodes[instructorInsertionIndex]
+          canvas = node.element
           instructorInsertionIndex+=insertionJump
           canvas.width = 240
           canvas.height = 240
           context = canvas.getContext('2d');
           context.drawImage(sprite, 0, 0);
+
+          #normal css3d object
+          nameLabel = instructor.get('firstName') + ' ' + instructor.get('lastName')
+          element = document.createElement 'div'
+          $(element).text(nameLabel)
+          nameNode = new THREE.CSS3DObject( element );
+          nameNode.position.set node.position.x, node.position.y, node.position.z
+          scene.add nameNode
+
           $(canvas).on 'mousedown', ()->
             $(canvas).on 'mousemove', ()->
               isDragging = true
