@@ -8,12 +8,6 @@ angular.module('ericruisApp')
     scope: 
       data: '='
     link: (scope, element, attrs)->
-      instructors = null
-      scope.$watch 'data', (newValue)->
-        if newValue?
-          instructors = newValue
-          addInstructorNodes(newValue)
-
       #VARS
       totalNodes = 30
       radius = totalNodes * 15
@@ -22,6 +16,16 @@ angular.module('ericruisApp')
       startingDuration = 500;
       pulseSpeed = .0007
       breathing = []
+      instructorInsertionIndex = 0
+      insertionJump = null
+      instructors = null
+
+      scope.$watch 'data', (newValue)->
+        if newValue?
+          instructors = newValue
+          insertionJump = Math.floor(totalNodes / instructors.length)
+          addInstructorNodes(newValue)
+
 
 
 
@@ -93,8 +97,8 @@ angular.module('ericruisApp')
 
       onload = (sprite, instructor)->
         return ()->
-          index = _.random(0, instructors.length-1)
-          canvas = nodes[index].element
+          canvas = nodes[instructorInsertionIndex].element
+          instructorInsertionIndex+=insertionJump
           context = canvas.getContext('2d');
           context.drawImage(sprite, 0, 0);
           $(canvas).on 'click', ()->
@@ -129,7 +133,6 @@ angular.module('ericruisApp')
           , 4000)
           .repeat(Infinity)
           .delay(2000)
-          .easing(TWEEN.Easing.Cubic.In)
           .yoyo(true)
           .start()
 
