@@ -104,9 +104,7 @@ angular.module('ericruisApp')
           context = canvas.getContext('2d');
           context.drawImage(sprite, 0, 0);
           $(canvas).on 'click', ()->
-            #same location of camera, only do next thing if it hasnt moved
-            console.log 'haha'
-           $rootScope.$apply ->
+            $rootScope.$apply ->
               $location.path '/instructor/' + instructor.id
 
 
