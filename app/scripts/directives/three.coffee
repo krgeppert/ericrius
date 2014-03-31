@@ -10,6 +10,8 @@ angular.module('ericruisApp')
     link: (scope, element, attrs)->
       #VARS
       totalNodes = 30
+      isDragging = false
+      wasDragging = false
       radius = totalNodes * 15
       nodes = []
       positions = []
@@ -19,14 +21,7 @@ angular.module('ericruisApp')
       instructorInsertionIndex = 0
       insertionJump = null
       instructors = null
-      isDragging = false
-
-      scope.$watch 'data', (newValue)->
-        if newValue?
-          instructors = newValue
-          insertionJump = Math.floor(totalNodes / instructors.length)
-          addInstructorNodes(newValue)
-
+      clickedCanvasUuid = null
 
       camera = new THREE.PerspectiveCamera 75, 1, 1, 100 
       camera.position.z = 1200
@@ -53,6 +48,13 @@ angular.module('ericruisApp')
 
         for i in [0...totalNodes]
           makeNode(sprite)
+        scope.$watch 'data', (newValue)->
+          console.log newValue
+          if newValue?
+            console.log 'aa'
+            instructors = newValue
+            insertionJump = Math.floor(totalNodes / instructors.length)
+            addInstructorNodes(newValue)
         spherify()
         breathe()
 
@@ -98,6 +100,7 @@ angular.module('ericruisApp')
           instructorInsertionIndex+=insertionJump
           canvas.width = 240
           canvas.height = 240
+          $(canvas).data('uuid', node.uuid)
           context = canvas.getContext('2d');
           context.drawImage(sprite, 0, 0);
 
@@ -110,21 +113,20 @@ angular.module('ericruisApp')
           nameNode.position.y -= 150
           node.add nameNode
 
-
- 
-
-          $(element).on 'mousedown', ()->
+          $(canvas).on 'mousedown', (event)->
+            clickedCanvasUuid = $(canvas).data('uuid')
             $(canvas).on 'mousemove', ()->
               isDragging = true
-              console.log 'hm'
               $(canvas).unbind('mousemove')
-          $(element).on 'mouseup', ()->
+          $(canvas).on 'mouseup', ()->
             wasDragging = isDragging
+            console.log 'wasDragging',wasDragging
             isDragging = false
             $(canvas).unbind('mousemove')
-            if !wasDragging
+            if !wasDragging and $(canvas).data('uuid') is clickedCanvasUuid
               $rootScope.$apply ->
                 $location.path '/instructor/' + instructor.id
+            clickedCanvasUuid = null
       
       window.onresize = ->
         console.log 'resize'
