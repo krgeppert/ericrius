@@ -47,7 +47,7 @@ angular.module('ericruisApp')
 
 
       sprite = document.createElement 'img'
-      sprite.src = 'images/test.png'
+      sprite.src = 'images/whiteSphereTransparent.png'
 
       sprite.addEventListener 'load', (event)->
 
