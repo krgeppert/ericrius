@@ -113,12 +113,12 @@ angular.module('ericruisApp')
 
  
 
-          $(canvas).on 'mousedown', ()->
+          $(element).on 'mousedown', ()->
             $(canvas).on 'mousemove', ()->
               isDragging = true
               console.log 'hm'
               $(canvas).unbind('mousemove')
-          $(canvas).on 'mouseup', ()->
+          $(element).on 'mouseup', ()->
             wasDragging = isDragging
             isDragging = false
             $(canvas).unbind('mousemove')
@@ -130,7 +130,7 @@ angular.module('ericruisApp')
         console.log 'resize'
         camera.aspect = 1
         camera.updateProjectionMatrix();
-        renderer.setSize(element.width(), element.width());
+        renderer.setSize(window.innerWidth, window.innerHeight);
 
       spherify = ->
         j = 0

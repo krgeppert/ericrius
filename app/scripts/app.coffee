@@ -5,6 +5,7 @@ angular.module( 'ericruisApp', [
   'ngResource'
   'ngSanitize'
   'ngRoute'
+  'ui.bootstrap'
 ]).config ($routeProvider)-> 
   $routeProvider.when '/', 
     templateUrl: 'views/main.html'
