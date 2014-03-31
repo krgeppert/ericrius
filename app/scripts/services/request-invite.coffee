@@ -2,8 +2,13 @@
 angular.module('ericruisApp')
   .factory 'requestInviteModal', (btfModal) ->
     btfModal
-      controller: -> 
-        @name = 'World'
-      controllerAs: 'ctrl'
-      template: '<div class="btf-modal">Hello {{ctrl.name}}</div>'
-    
+      controller: 'RequestInviteCtrl'
+      controllerAs: 'modal'
+      templateUrl: '/views/request.html'
+  
+  .controller 'RequestInviteCtrl', ($scope, requestInviteModal)->
+    $scope.closeMe = requestInviteModal.deactivate
+  
+  .controller 'NavCtrl', ($scope, requestInviteModal)->
+    #Why do we need to do this on scope?
+    $scope.showModal = requestInviteModal.activate

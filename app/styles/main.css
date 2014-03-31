@@ -22,3 +22,8 @@
   -ms-transform: translateX(-50%) translateY(-50%);
   transform: translateX(-50%) translateY(-50%);
 }
+
+#contact{
+  position: absolute;
+  z-index: 1;
+}
