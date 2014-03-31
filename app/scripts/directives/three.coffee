@@ -113,12 +113,12 @@ angular.module('ericruisApp')
 
  
 
-          $(canvas).on 'mousedown', ()->
+          $(element).on 'mousedown', ()->
             $(canvas).on 'mousemove', ()->
               isDragging = true
               console.log 'hm'
               $(canvas).unbind('mousemove')
-          $(canvas).on 'mouseup', ()->
+          $(element).on 'mouseup', ()->
             wasDragging = isDragging
             isDragging = false
             $(canvas).unbind('mousemove')

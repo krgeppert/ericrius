@@ -3,8 +3,8 @@
 angular.module('ericruisApp')
 .controller 'RequestInviteCtrl', ($scope, $modal) ->
   $scope.open = ->
-    modalInstance = $modal.open
-      template: 'request.html'
-
+    modalInstance = $modal.open(
+      template: '<p>hey</p>' 
+    )
 
       
