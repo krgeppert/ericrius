@@ -5,7 +5,7 @@ angular.module( 'ericruisApp', [
   'ngResource'
   'ngSanitize'
   'ngRoute'
-  'ui.bootstrap'
+  'btford.modal'
 ]).config ($routeProvider)-> 
   $routeProvider.when '/', 
     templateUrl: 'views/main.html'
