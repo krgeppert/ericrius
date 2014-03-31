@@ -89,7 +89,7 @@ angular.module('ericruisApp')
       addInstructorNodes = (instructors)->
         _.each instructors, (instructor)->
           sprite = document.createElement 'img'
-          sprite.src = instructor.get('imageURL')
+          sprite.src = instructor.get('imageWithLabelUrl')
           sprite.addEventListener 'load', onload(sprite, instructor)
 
 
@@ -98,20 +98,23 @@ angular.module('ericruisApp')
           node = nodes[instructorInsertionIndex]
           canvas = node.element
           instructorInsertionIndex+=insertionJump
-          canvas.width = 240
-          canvas.height = 240
+          canvas.width = sprite.width
+          canvas.height = sprite.height
           $(canvas).data('uuid', node.uuid)
           context = canvas.getContext('2d');
           context.drawImage(sprite, 0, 0);
 
-          nameLabel = instructor.get('firstName') + ' ' + instructor.get('lastName')
-          element = document.createElement 'h2'
-          $(element).text(nameLabel)
-          nameNode = new THREE.CSS3DSprite( element );
-          #Keep a reference to nameNode so we can place it
-          node.nameNode = nameNode
-          nameNode.position.y -= 150
-          node.add nameNode
+          # 
+          # JORDY commenting out name label for now because we are now using teacher images which include the name label
+          # 
+          # nameLabel = instructor.get('firstName') + ' ' + instructor.get('lastName')
+          # element = document.createElement 'h2'
+          # $(element).text(nameLabel)
+          # nameNode = new THREE.CSS3DSprite( element );
+          # #Keep a reference to nameNode so we can place it
+          # node.nameNode = nameNode
+          # nameNode.position.y -= 150
+          # node.add nameNode
 
           $(canvas).on 'mousedown', (event)->
             clickedCanvasUuid = $(canvas).data('uuid')
