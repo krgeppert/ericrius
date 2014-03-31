@@ -30,14 +30,14 @@ angular.module('ericruisApp')
       scene = new THREE.Scene()
 
       #RENDERER
-      renderer = new THREE.CSS3DRenderer()
-      renderer.setSize element.width(), element.width()
-      # renderer.domElement.style.position = 'absolute';
-      element.append renderer.domElement
+      $rootScope.renderer = $rootScope.renderer or new THREE.CSS3DRenderer()
+      $rootScope.renderer.setSize element.width(), element.width()
+      $rootScope.renderer.domElement.style.position = 'absolute';
+      element.append $rootScope.renderer.domElement
 
 
       #CONTROLS
-      controls = new THREE.TrackballControls camera, renderer.domElement
+      controls = new THREE.TrackballControls camera, $rootScope.renderer.domElement
       controls.rotateSpeed = 0.5
 
 
@@ -135,7 +135,7 @@ angular.module('ericruisApp')
         console.log 'resize'
         camera.aspect = 1
         camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        $rootScope.renderer.setSize(window.innerWidth, window.innerHeight);
 
       spherify = ->
         j = 0
@@ -183,5 +183,5 @@ angular.module('ericruisApp')
         TWEEN.update();
         time = Date.now()
         #: 4 seconds inhale, 2 seconds pause, 4 seconds exhale, 2 seconds pause
-        renderer.render scene, camera
+        $rootScope.renderer.render scene, camera
       animate()
