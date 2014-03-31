@@ -2,14 +2,14 @@
 'use strict';
 angular.module('ericruisApp').directive('three', function($parse, $location, $rootScope) {
   return {
-    template: '<div id="canvas-container"></div>',
-    restrict: 'E',
-    replace: true,
-    scope: {
-      data: '='
-    },
-    link: function(scope, element, attrs) {
-      var addInstructorNodes, animate, breathe, breathing, camera, clickedCanvasUuid, controls, insertionJump, instructorInsertionIndex, instructors, isDragging, makeNode, nodes, onload, positions, pulseSpeed, radius, scene, spherify, sprite, startingDuration, totalNodes, wasDragging;
+    restrict: 'AE',
+    scope: false,
+    link: function(scope, e, attrs) {
+      var addInstructorNodes, animate, breathe, breathing, camera, canvasContainer, clickedCanvasUuid, controls, insertionJump, instructorInsertionIndex, instructors, isDragging, makeNode, nodes, onload, positions, pulseSpeed, radius, scene, spherify, sprite, startingDuration, totalNodes, wasDragging;
+      if (!_(attrs).has('data')) {
+        throw new Error('directive "three" is missing data.');
+      }
+      canvasContainer = $('[three]');
       totalNodes = 30;
       isDragging = false;
       wasDragging = false;
@@ -23,13 +23,21 @@ angular.module('ericruisApp').directive('three', function($parse, $location, $ro
       insertionJump = null;
       instructors = null;
       clickedCanvasUuid = null;
+      isDragging = false;
+      scope.$watch(attrs.data, function(newValue) {
+        if (newValue != null) {
+          instructors = newValue;
+          insertionJump = Math.floor(totalNodes / instructors.length);
+          return addInstructorNodes(newValue);
+        }
+      });
       camera = new THREE.PerspectiveCamera(75, 1, 1, 100);
       camera.position.z = 1200;
       scene = new THREE.Scene();
       $rootScope.renderer = $rootScope.renderer || new THREE.CSS3DRenderer();
-      $rootScope.renderer.setSize(element.width(), element.width());
+      $rootScope.renderer.setSize(1000, 1000);
       $rootScope.renderer.domElement.style.position = 'absolute';
-      element.append($rootScope.renderer.domElement);
+      canvasContainer.append($rootScope.renderer.domElement);
       controls = new THREE.TrackballControls(camera, $rootScope.renderer.domElement);
       controls.rotateSpeed = 0.5;
       sprite = document.createElement('img');
@@ -113,7 +121,6 @@ angular.module('ericruisApp').directive('three', function($parse, $location, $ro
         };
       };
       window.onresize = function() {
-        console.log('resize');
         camera.aspect = 1;
         camera.updateProjectionMatrix();
         return $rootScope.renderer.setSize(window.innerWidth, window.innerHeight);

@@ -2,13 +2,13 @@
 
 angular.module('ericruisApp')
   .directive 'three', ($parse, $location, $rootScope) ->
-    template: '<div id="canvas-container"></div>'
-    restrict: 'E'
-    replace: true
-    scope: 
-      data: '='
-    link: (scope, element, attrs)->
+    restrict: 'AE'
+    scope: false
+    link: (scope, e, attrs)->
+      unless _(attrs).has 'data'
+        throw new Error 'directive "three" is missing data.'
       #VARS
+      canvasContainer = $('[three]')
       totalNodes = 30
       isDragging = false
       wasDragging = false
@@ -22,25 +22,34 @@ angular.module('ericruisApp')
       insertionJump = null
       instructors = null
       clickedCanvasUuid = null
+      isDragging = false
+
+      scope.$watch attrs.data, (newValue)->
+        if newValue?
+          instructors = newValue
+          insertionJump = Math.floor totalNodes / instructors.length
+          addInstructorNodes newValue
+
 
       camera = new THREE.PerspectiveCamera 75, 1, 1, 100 
       camera.position.z = 1200
-      
+
       #SCENE
       scene = new THREE.Scene()
 
       #RENDERER
       $rootScope.renderer = $rootScope.renderer or new THREE.CSS3DRenderer()
-      $rootScope.renderer.setSize element.width(), element.width()
+      $rootScope.renderer.setSize 1000, 1000
       $rootScope.renderer.domElement.style.position = 'absolute';
-      element.append $rootScope.renderer.domElement
-
+      canvasContainer.append $rootScope.renderer.domElement
+      
 
       #CONTROLS
       controls = new THREE.TrackballControls camera, $rootScope.renderer.domElement
       controls.rotateSpeed = 0.5
 
 
+      #SPRITE
       sprite = document.createElement 'img'
       sprite.src = 'images/whiteSphereTransparent.png'
 
@@ -132,7 +141,6 @@ angular.module('ericruisApp')
             clickedCanvasUuid = null
       
       window.onresize = ->
-        console.log 'resize'
         camera.aspect = 1
         camera.updateProjectionMatrix();
         $rootScope.renderer.setSize(window.innerWidth, window.innerHeight);

@@ -8,16 +8,18 @@
       <a class="navbar-brand scrollto" href="#">
       <span class="logo-small"><img src="assets/logo-small.png" alt=""></span>
       <span class="to-top"><i class="fa fa-arrow-up"></i></span>
-      Ohmies
+      Omies
       
       <!-- ==== Image Logo ==== -->
       <!--<img class="site-logo" src="assets/logo.png" alt="logo" />-->
       </a>
     </div>
+
+   
     <div id="site-nav" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
-        <li>
-          <a href="#/instuctor/jdnfg" class="scrollto">About</a>
+        <li ng-controller="RequestInviteCtrl">
+          <a class="scrollto pointer" ng-click="open()">Request an Invite</a>
         </li>
         <li>
           <a href="#services" class="scrollto">Services</a>
