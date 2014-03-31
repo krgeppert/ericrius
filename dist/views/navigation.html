@@ -1,4 +1,4 @@
-<div id="main-nav" class="navbar navbar-fixed-top">
+<div id="main-nav" class="navbar navbar-fixed-top" ng-controller="NavCtrl as ctrl">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle">
@@ -19,7 +19,7 @@
     <div id="site-nav" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li ng-controller="RequestInviteCtrl">
-          <a class="scrollto pointer" ng-click="open()">Request an Invite</a>
+          <a href="" class="scrollto pointer" ng-click="showModal()">Request an Invite</a>
         </li>
         <li>
           <a href="#services" class="scrollto">Services</a>
